@@ -17,10 +17,14 @@ class ConfigExtension implements ExtensionInterface
 
     function register(\Silex\Application $app)
     {
-        /** @var $loader \Symfony\Component\ClassLoader\UniversalClassLoader */
-        $loader = $app['autoloader'];
-        $class_path = $app['config.class_path'];
-        $loader->registerNamespace('ConfigExtension', $class_path);
+        if (isset($app['config.class_path']))
+        {
+            /** @var $loader \Symfony\Component\ClassLoader\UniversalClassLoader */
+            $loader = $app['autoloader'];
+            $class_path = $app['config.class_path'];
+            $loader->registerNamespace('ConfigExtension', $class_path);
+        }
+
 
         $app['config'] = new Config(
             $app['config.path'],
