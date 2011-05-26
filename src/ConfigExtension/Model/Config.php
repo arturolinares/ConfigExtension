@@ -113,7 +113,8 @@ class Config
         if (preg_match('/\%([\w\.]+)\%/', $val, $matches))
         {
             $var = $matches[1];
-            if ($replacement = isset($this->replacements[$var]) ?: null)
+            $replacement = isset($this->replacements[$var]) ? $this->replacements[$var] : null;
+            if ($replacement)
             {
                 $val = str_replace("%$var%", $replacement, $val);
             }

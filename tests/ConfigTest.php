@@ -9,11 +9,7 @@ require_once __DIR__ . '/../../ConfigExtension/src/ConfigExtension/Model/Config.
 
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
-    
-    public function testRegisterExtension()
-    {
-        
-    }
+    // TODO: Test resgister extension
 
     public function testValueRetrieval()
     {
@@ -24,7 +20,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame('test', $config->get('sectionA.value1'), 'Section names are prepended');
         $this->assertSame(
             'value HELLO! quotes',
-            $config->get('sectionB.section with spaces'),
+            $config->get('section with spaces.value1'),
             'Variable replacement'
         );
 
