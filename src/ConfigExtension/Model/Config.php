@@ -84,20 +84,42 @@ class Config
     {
         $parsed_ini_file = array();
         $parsed = parse_ini_file($file_name, true);
+        if ($parsed === false)
+        {
+            throw new \Exception('Error opening .ini file!');
+        }
+
         foreach ($parsed as $section => $arr)
         {
-            foreach($arr as $key => $val)
+            if (is_array($arr))
             {
-                if (preg_match('/\%([\w\.]+)\%/', $val, $matches))
+                foreach($arr as $key => $val)
                 {
-                    $var = $matches[1];
-                    $val = str_replace("%$var%", $this->replacements[$var], $val);
+                    $val = $this->replaceVariables($val);
+                    $parsed_ini_file["$section.$key"] = $val;
                 }
-
-                $parsed_ini_file["$section.$key"] = $val;
+            }
+            else
+            {
+                $val = $this->replaceVariables($arr);
+                $parsed_ini_file["$section"] = $val;
             }
         }
         return $parsed_ini_file;
+    }
+
+    public function replaceVariables($val)
+    {
+        if (preg_match('/\%([\w\.]+)\%/', $val, $matches))
+        {
+            $var = $matches[1];
+            if ($replacement = isset($this->replacements[$var]) ?: null)
+            {
+                $val = str_replace("%$var%", $replacement, $val);
+            }
+            return $val;
+        }
+        return $val;
     }
 
     /**

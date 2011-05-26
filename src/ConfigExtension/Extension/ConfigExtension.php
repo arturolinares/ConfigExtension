@@ -28,7 +28,7 @@ class ConfigExtension implements ExtensionInterface
 
         $app['config'] = new Config(
             $app['config.path'],
-            $app['config.replacements']
+            isset($app['config.replacements']) ?: array()
         );
     }
 }
