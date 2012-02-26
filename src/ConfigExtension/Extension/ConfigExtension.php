@@ -6,13 +6,13 @@
  */
 namespace ConfigExtension\Extension;
 
-use \Silex\ExtensionInterface;
+use \Silex\ServiceProviderInterface;
 use \ConfigExtension\Model\Config;
 
 /**
  * Config silex extension
  */
-class ConfigExtension implements ExtensionInterface
+class ConfigExtension implements ServiceProviderInterface
 {
 
     function register(\Silex\Application $app)
