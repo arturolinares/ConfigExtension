@@ -3,6 +3,20 @@ ConfigExtension
 
 Silex extension to read php .ini files used for configurations.
 
+## Installation
+
+Add the following to composer.json.
+
+    "autoload" : {
+        "psr-0" : {
+            "ConfigExtension": "ConfigExtension/src/ConfigExtension/"
+        }
+    }
+
+This assumes the ConfigExtension folder is in the same directory as composer.json
+
+Run: "composer dumpautoload"
+
 ## Usage
 
 Here is an example of its usage.
@@ -22,13 +36,10 @@ We have this .ini file:
 And the index.php:
 
     <?php
-    require 'phar://silex.phar/autoload.php';
+
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     $app = new Silex\Application();
-
-    // configure the autoloader to find the extension classes
-    $app['autoloader']->registerNamespace('ConfigExtension', __DIR__.'/../vendor/ConfigExtension/src');
-    $app['autoloader']->register();
 
     $app->register(new \ConfigExtension\Extension\ConfigExtension(), array(
         // specify the .ini file to read

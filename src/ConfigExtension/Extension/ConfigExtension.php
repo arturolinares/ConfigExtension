@@ -17,18 +17,11 @@ class ConfigExtension implements ServiceProviderInterface
 
     function register(\Silex\Application $app)
     {
-        if (isset($app['config.class_path']))
-        {
-            /** @var $loader \Symfony\Component\ClassLoader\UniversalClassLoader */
-            $loader = $app['autoloader'];
-            $class_path = $app['config.class_path'];
-            $loader->registerNamespace('ConfigExtension', $class_path);
-        }
-
-
-        $app['config'] = new Config(
-            $app['config.path'],
-            isset($app['config.replacements']) ? $app['config.replacements'] : array()
-        );
+        $app['config'] = $app->share(function () use ($app) {
+            return new Config(
+                $app['config.path'],
+                isset($app['config.replacements']) ? $app['config.replacements'] : array()
+            );
+        });
     }
 }
